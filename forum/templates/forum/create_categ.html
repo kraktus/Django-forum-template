@@ -1,0 +1,20 @@
+{% extends 'forum/base.html' %}
+
+{% block title %}New Category{% endblock title %}
+
+{% block content %}
+    <div class="prose max-w-none mb-6">
+        <h1>Create New Category</h1>
+    </div>
+
+    <div class="card bg-base-100 shadow-xl">
+        <form method="post" class="card-body">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="card-actions justify-end">
+                <a href="{% url 'index' %}" class="btn">Cancel</a>
+                <button type="submit" class="btn btn-primary">Create Category</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
