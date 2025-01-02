@@ -1,9 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
+from django.core.validators import MinLengthValidator
 
+
+min_validator=[
+            MinLengthValidator(3, 'the field must contain at least 3 characters')
+            ]
 
 class Category(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50, validators=min_validator)
     slug = models.SlugField(max_length=400)
     description = models.TextField()
 
@@ -11,6 +17,10 @@ class Category(models.Model):
         verbose_name_plural = "categories"
     def __str__(self):
         return f"{self.id},{self.title}"
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
     
 
     # def save(self, *args, **kwargs):
@@ -33,7 +43,7 @@ class Category(models.Model):
 
 
 class Topic(models.Model):
-    title = models.CharField(max_length=400)
+    title = models.CharField(max_length=400, validators=min_validator)
     slug = models.SlugField(max_length=400, unique=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -69,10 +79,14 @@ class Topic(models.Model):
     # def last_reply(self):
     #     return self.comments.latest("date")
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    content = models.TextField()
+    content = models.TextField(max_length=100000,validators=min_validator)
     date = models.DateTimeField(auto_now_add=True)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
 

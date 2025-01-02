@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 
 from .models import Post, Category, Topic
-from .forms import PostForm, TopicForm
+from .forms import PostForm, TopicForm, CategoryForm
 
 from django.template import loader
 from django.shortcuts import redirect, render, get_object_or_404
@@ -21,27 +21,42 @@ def index(request):
     return render(request, "forum/index.html", context)
 
 
-def category(request, categ_id):
+# @login_required
+def new_category(request):
+    if request.method == "POST":
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            category = form.save(commit=False)
+            category.save()
+            return redirect('index')
+    else:
+        form = CategoryForm()
+        context = {
+            "form": form,
+        }
+    return render(request, "forum/create_category.html", context)
+
+def category(request, categ_slug, categ_id):
     category = get_object_or_404(Category, id=categ_id)
     topics = Topic.objects.filter(category=category)
     context = {
         "category":category,
         "topics":topics,
     }
-    return render(request, "category.html", context)
+    return render(request, "forum/category.html", context)
 
-def topic(request, _categ_id, topic_id):
+def topic(request, categ_slug, categ_id, topic_slug, topic_id):
     topic = get_object_or_404(Topic, id=topic_id)
     posts = Post.objects.filter(topic=topic)
     context = {
         "topic":topic,
         "posts":posts,
     }
-    return render(request, "topic.html", context)
+    return render(request, "forum/topic.html", context)
 
 
-@login_required
-def new_topic(request, categ_id):
+# @login_required
+def new_topic(request, categ_slug, categ_id):
     category = get_object_or_404(Category, id=categ_id)
     if request.method == "POST":
         form = TopicForm(request.POST)
@@ -70,7 +85,7 @@ def new_topic(request, categ_id):
 
 
 
-@login_required
+# @login_required
 def create_post(request, categ_id, topic_id):
     topic = get_object_or_404(Topic, id=topic_id)
     if request.method == "POST":

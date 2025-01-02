@@ -15,7 +15,7 @@
 
     <div class="grid gap-4">
         {% for topic in topics %}
-        <a href="{% url 'topic' topic.slug topic.id %}" 
+        <a href="{% url 'topic' category.slug category.id topic.slug topic.id %}" 
            class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
             <div class="card-body">
                 <div class="flex justify-between items-center">
