@@ -1,0 +1,36 @@
+{% extends 'forum/base.html' %}
+
+{% block title %}{{ category.title }}{% endblock title %}
+
+{% block content %}
+    <div class="prose max-w-none mb-6">
+        <h1>{{ category.title }}</h1>
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="mb-6">
+        <a href="{% url 'new_topic' category.slug category.id %}" class="btn btn-primary">New Topic</a>
+    </div>
+    {% endif %}
+
+    <div class="grid gap-4">
+        {% for topic in topics %}
+        <a href="{% url 'topic' topic.slug topic.id %}" 
+           class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
+            <div class="card-body">
+                <div class="flex justify-between items-center">
+                    <h2 class="card-title">{{ topic.title }}</h2>
+                    <div class="badge badge-primary">{{ topic.post_count }} posts</div>
+                </div>
+                <p class="text-sm text-gray-500">Started by {{ topic.author }} on {{ topic.created_at }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    {% if not topics %}
+    <div class="alert">
+        <span>No topics yet in this category.</span>
+    </div>
+    {% endif %}
+{% endblock content %}

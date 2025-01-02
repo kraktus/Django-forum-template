@@ -9,16 +9,13 @@
 
     <div class="grid gap-4">
         {% for categ_with_topic in categs_with_topics %}
-        <div class="card bg-base-100 shadow-xl">
-            <div class="card-body">
+        <a href="{% url 'category' categ_with_topic.0.slug categ_with_topic.0.id %}" 
+           class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
+            <div class="card-body flex flex-row justify-between items-center">
                 <h2 class="card-title">{{ categ_with_topic.0.title }}</h2>
-                <p>Topics: {{ categ_with_topic.1 }}</p>
-                <div class="card-actions justify-end">
-                    <a href="{% url 'category' categ_with_topic.0.slug categ_with_topic.0.id %}" 
-                       class="btn btn-primary">View Topics</a>
-                </div>
+                <div class="badge badge-primary">{{ categ_with_topic.1 }} topics</div>
             </div>
-        </div>
+        </a>
         {% endfor %}
     </div>
 {% endblock content %}
