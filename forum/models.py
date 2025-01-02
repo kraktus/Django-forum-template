@@ -49,7 +49,7 @@ class Topic(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # content = HTMLField()
     # categories = models.ManyToManyField(Category)
-    date = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     # approved = models.BooleanField(default=False)
     # hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk',
     #     related_query_name='hit_count_generic_relation'
@@ -58,10 +58,6 @@ class Topic(models.Model):
     # comments = models.ManyToManyField(Comment, blank=True)
     # closed = models.BooleanField(default=False)
     # state = models.CharField(max_length=40, default="zero")
-    # def save(self, *args, **kwargs):
-    #     if not self.slug:
-    #         self.slug = slugify(self.title)
-    #     super(Post, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.id},{self.title}"
