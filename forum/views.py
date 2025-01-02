@@ -21,7 +21,7 @@ def index(request):
     return render(request, "forum/index.html", context)
 
 
-# @login_required
+@login_required
 def new_category(request):
     if request.method == "POST":
         form = CategoryForm(request.POST)
@@ -55,7 +55,7 @@ def topic(request, categ_slug, categ_id, topic_slug, topic_id):
     return render(request, "forum/topic.html", context)
 
 
-# @login_required
+@login_required
 def new_topic(request, categ_slug, categ_id):
     category = get_object_or_404(Category, id=categ_id)
     if request.method == "POST":

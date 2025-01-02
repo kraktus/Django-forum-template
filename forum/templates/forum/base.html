@@ -11,11 +11,13 @@
             <div class="flex-1">
                 <a href="{% url 'index' %}" class="btn btn-ghost text-xl">Forum</a>
             </div>
+            {% if user.is_authenticated %}
             <div class="flex-none">
                 <ul class="menu menu-horizontal px-1">
-                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li>{{user.username}}</li>
                 </ul>
             </div>
+            {% endif %}
         </div>
 
         <div class="container mx-auto p-4">

@@ -22,7 +22,7 @@
                     <h2 class="card-title">{{ topic.title }}</h2>
                     <div class="badge badge-primary">{{ topic.post_count }} posts</div>
                 </div>
-                <p class="text-sm text-gray-500">Started by {{ topic.author }} on {{ topic.created_at }}</p>
+                <p class="text-sm text-gray-500">Started by {{ topic.user }} on {{ topic.created_at }}</p>
             </div>
         </a>
         {% endfor %}
