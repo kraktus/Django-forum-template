@@ -48,9 +48,11 @@ def category(request, categ_slug, categ_id):
 def topic(request, categ_slug, categ_id, topic_slug, topic_id):
     topic = get_object_or_404(Topic, id=topic_id)
     posts = Post.objects.filter(topic=topic)
+    form = PostForm()
     context = {
         "topic":topic,
         "posts":posts,
+        "form":form,
     }
     return render(request, "forum/topic.html", context)
 
