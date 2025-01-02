@@ -3,8 +3,9 @@
 
 {% block content %}
 	<h2>Categories</h2>
+	<-- Clickable categs to see topics-->
 	<ul>
 		{% for categ_with_topic in categs_with_topics %}
-			<li>{{ categ_with_topic.0.title }}, {{ categ_with_topic.1 }}</li>
+			<li><a href="{% url 'category' categ_with_topic.0.slug categ_with_topic.0.id %}">{{ categ_with_topic.0.title },categ_with_topic.1 }</a></li>
 		{% endfor %}
 {% endblock content %}
