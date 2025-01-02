@@ -72,7 +72,7 @@ def new_topic(request, categ_slug, categ_id):
                 content=request.POST.get('content'),
                 topic=topic
             )
-            return redirect('topic', categ_id=categ_id, topic_id=topic.id)
+            return redirect('topic', categ_slug=categ_slug,categ_id=categ_id, topic_slug=topic.slug,topic_id=topic.id)
     else:
         form = TopicForm()
     
