@@ -6,7 +6,7 @@ from .forms import PostForm, TopicForm, CategoryForm
 from django.template import loader
 from django.shortcuts import redirect, render, get_object_or_404
 # from .forms import PostForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
@@ -47,14 +47,23 @@ def category(request, categ_slug, categ_id):
 
 def topic(request, categ_slug, categ_id, topic_slug, topic_id):
     topic = get_object_or_404(Topic, id=topic_id)
-    posts = Post.objects.filter(topic=topic)
-    form = PostForm()
-    context = {
-        "topic":topic,
-        "posts":posts,
-        "form":form,
-    }
-    return render(request, "forum/topic.html", context)
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.topic = topic
+            post.save()
+            return redirect('topic', categ_slug=categ_slug,categ_id=categ_id, topic_slug=topic_slug,topic_id=topic_id)
+    else:
+        posts = Post.objects.filter(topic=topic)
+        form = PostForm()
+        context = {
+            "topic":topic,
+            "posts":posts,
+            "form":form,
+        }
+        return render(request, "forum/topic.html", context)
 
 
 @login_required
@@ -86,7 +95,7 @@ def new_topic(request, categ_slug, categ_id):
 
 
 
-# @login_required
+@login_required
 def create_post(request, categ_id, topic_id):
     topic = get_object_or_404(Topic, id=topic_id)
     if request.method == "POST":

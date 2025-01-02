@@ -1,8 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 from django.core.validators import MinLengthValidator
 
+User = get_user_model()
 
 min_validator=[
             MinLengthValidator(3, 'the field must contain at least 3 characters')
