@@ -12,7 +12,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             <div class="card-actions justify-end">
-                <a href="{% url 'new_topic' category.slug category.id %}" class="btn">Cancel</a>
+                <a href="{% url 'category' category.slug category.id %}" class="btn">Cancel</a>
                 <button type="submit" class="btn btn-primary">Create Topic</button>
             </div>
         </form>

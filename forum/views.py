@@ -79,7 +79,6 @@ def new_topic(request, categ_slug, categ_id):
     context = {
         "form": form,
         "category": category,
-        "title": f"Create New Topic in {category.title}"
     }
     return render(request, "forum/create_topic.html", context)
 
