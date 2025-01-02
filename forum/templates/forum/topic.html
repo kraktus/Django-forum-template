@@ -1,0 +1,38 @@
+{% extends 'forum/base.html' %}
+
+{% block title %}{{ topic.title }}{% endblock title %}
+
+{% block content %}
+    <div class="prose max-w-none mb-6">
+        <h1>{{ topic.title }}</h1>
+    </div>
+
+    <div class="grid gap-4">
+        {% for post in posts %}
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <div class="flex justify-between items-center">
+                    <h3 class="card-title">{{ post.author }}</h3>
+                    <span class="text-sm text-gray-500">{{ post.created_at }}</span>
+                </div>
+                <p>{{ post.content }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="mt-8">
+        <form method="post" class="card bg-base-100 shadow-xl">
+            {% csrf_token %}
+            <div class="card-body">
+                <h2 class="card-title">Add Reply</h2>
+                {{ form.as_p }}
+                <div class="card-actions justify-end">
+                    <button type="submit" class="btn btn-primary">Post Reply</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+{% endblock content %}

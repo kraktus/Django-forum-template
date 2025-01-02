@@ -1,11 +1,24 @@
-
 {% extends 'forum/base.html' %}
 
+{% block title %}Categories{% endblock title %}
+
 {% block content %}
-	<h2>Categories</h2>
-	<-- Clickable categs to see topics-->
-	<ul>
-		{% for categ_with_topic in categs_with_topics %}
-			<li><a href="{% url 'category' categ_with_topic.0.slug categ_with_topic.0.id %}">{{ categ_with_topic.0.title },categ_with_topic.1 }</a></li>
-		{% endfor %}
+    <div class="prose max-w-none mb-6">
+        <h1>Categories</h1>
+    </div>
+
+    <div class="grid gap-4">
+        {% for categ_with_topic in categs_with_topics %}
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">{{ categ_with_topic.0.title }}</h2>
+                <p>Topics: {{ categ_with_topic.1 }}</p>
+                <div class="card-actions justify-end">
+                    <a href="{% url 'category' categ_with_topic.0.slug categ_with_topic.0.id %}" 
+                       class="btn btn-primary">View Topics</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 {% endblock content %}
