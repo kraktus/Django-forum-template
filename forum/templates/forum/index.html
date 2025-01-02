@@ -7,6 +7,12 @@
         <h1>Categories</h1>
     </div>
 
+    {% if user.is_authenticated %}
+    <div class="mb-6">
+        <a href="{% url 'new_category' %}" class="btn btn-primary">New Category</a>
+    </div>
+    {% endif %}
+
     <div class="grid gap-4">
         {% for categ_with_topic in categs_with_topics %}
         <a href="{% url 'category' categ_with_topic.0.slug categ_with_topic.0.id %}" 
