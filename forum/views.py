@@ -41,23 +41,32 @@ def topic(request, _categ_id, topic_id):
 
 
 @login_required
-def new_topic(request):
-    context = {}
-    form = PostForm(request.POST or None)
+def new_topic(request, categ_id):
+    category = get_object_or_404(Category, id=categ_id)
     if request.method == "POST":
+        form = TopicForm(request.POST)
         if form.is_valid():
-            print("\n\n its valid")
-            author = Author.objects.get(user=request.user)
-            new_post = form.save(commit=False)
-            new_post.user = author
-            new_post.save()
-            form.save_m2m()
-            return redirect("home")
-    context.update({
+            topic = form.save(commit=False)
+            topic.user = request.user
+            topic.category = category
+            topic.save()
+            
+            # Create first post
+            post = Post.objects.create(
+                user=request.user,
+                content=request.POST.get('content'),
+                topic=topic
+            )
+            return redirect('topic', categ_id=categ_id, topic_id=topic.id)
+    else:
+        form = TopicForm()
+    
+    context = {
         "form": form,
-        "title": "OZONE: Create New Post"
-    })
-    return render(request, "create_post.html", context)
+        "category": category,
+        "title": f"Create New Topic in {category.title}"
+    }
+    return render(request, "forum/create_topic.html", context)
 
 
 
