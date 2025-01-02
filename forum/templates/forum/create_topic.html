@@ -1,0 +1,20 @@
+{% extends 'forum/base.html' %}
+
+{% block title %}New Topic in {{ category.title }}{% endblock title %}
+
+{% block content %}
+    <div class="prose max-w-none mb-6">
+        <h1>New Topic in {{ category.title }}</h1>
+    </div>
+
+    <div class="card bg-base-100 shadow-xl">
+        <form method="post" class="card-body">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="card-actions justify-end">
+                <a href="{% url 'category' category.slug category.id %}" class="btn">Cancel</a>
+                <button type="submit" class="btn btn-primary">Create Topic</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
