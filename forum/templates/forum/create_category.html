@@ -3,6 +3,11 @@
 {% block title %}New Category{% endblock title %}
 
 {% block content %}
+    {% if not perms.forum.add_category %}
+    <div class="alert alert-error">
+        <p>You don't have permission to create categories.</p>
+    </div>
+    {% else %}
     <div class="prose max-w-none mb-6">
         <h1>Create New Category</h1>
     </div>
@@ -17,4 +22,5 @@
             </div>
         </form>
     </div>
+    {% endif %}
 {% endblock content %}
