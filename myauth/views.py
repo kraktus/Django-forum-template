@@ -24,18 +24,3 @@ class SignUpView(View):
             return redirect('index')
         else:
             return HttpResponse("Error")
-        
-
-class LoginView(View):
-    async def get(self, request):
-        return HttpResponse("Login page")
-    async def post(self, request):
-        return HttpResponse("Login page")
-
-
-@login_required
-def logout(request):
-    if request.method == "POST":
-        return HttpResponse("Logout page")
-    else:
-        return redirect('index')

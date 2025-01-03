@@ -1,9 +1,10 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 
-# Register your models here.
+from .models import Category, Post, Topic, User
 
-from .models import Category, Post, Topic
 
+admin.site.register(User, UserAdmin)
 admin.site.register(Category)
 admin.site.register(Post)
 admin.site.register(Topic)
