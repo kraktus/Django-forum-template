@@ -5,6 +5,7 @@ from asgiref.sync import sync_to_async
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 from .forms import UserCreationFormRequest
+from .models import SignUpRequest
 from django.contrib.auth import alogin
 
 from django.shortcuts import redirect, render, get_object_or_404
@@ -22,7 +23,10 @@ class SignUpView(View):
         if await sync_to_async(form.is_valid)():
             user = await sync_to_async(form.save)(commit=False)
             user.username = user.username.lower()
+            # also save SignUpRequest, using demand from the form
+            signup_request = SignUpRequest(user=user, demand=form.cleaned_data["demand"])
             await user.asave()
+            await signup_request.asave()
             await alogin(request, user)
             return redirect('index')
         else:
