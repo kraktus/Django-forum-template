@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from asgiref.sync import sync_to_async
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.template import loader
 
 from .models import Post, Category, Topic
