@@ -12,10 +12,9 @@ get_object_or_404_async = sync_to_async(get_object_or_404)
 
 class IndexView(View):
     async def get(self, request):
-        categs = await Category.objects.all()
         categs_with_topics = []
-        for categ in categs:
-            topic_count = await Topic.objects.filter(category=categ).count()
+        async for categ in Category.objects.all():
+            topic_count = await Topic.objects.filter(category=categ).acount()
             categs_with_topics.append((categ, topic_count))
         
         context = {
