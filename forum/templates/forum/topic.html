@@ -21,7 +21,7 @@
         {% endfor %}
     </div>
 
-    {% if user.is_authenticated %}
+    {% if perms.forum.adds_post %}
     <div class="mt-8">
         <form method="post" class="card bg-base-100 shadow-xl">
             {% csrf_token %}
