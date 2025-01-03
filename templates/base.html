@@ -18,6 +18,13 @@
                 </ul>
             </div>
             {% endif %}
+            <div class="flex-none">
+                {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="btn btn-outline btn-erro">Logout</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+                {% endif %}
+            </div>
         </div>
 
         <div class="container mx-auto p-4">
